@@ -28,9 +28,9 @@ public class @DefaultPlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Camera"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""2e80c20b-894e-4578-a380-7be3af25e8a0"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -96,7 +96,7 @@ public class @DefaultPlayerControls : IInputActionCollection, IDisposable
                     ""id"": ""51679119-9542-4446-a7bf-b46d493d862c"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""NormalizeVector2"",
                     ""groups"": """",
                     ""action"": ""Camera"",
                     ""isComposite"": false,

@@ -12,7 +12,7 @@ namespace Shimmering
         private Vector3 normalVector = Vector3.zero;
         private Vector3 targetPosition = Vector3.zero;
         private Vector2 movementInput = Vector2.zero;
-        private Vector2 cameraInput = Vector2.zero;
+
         private float moveAmount = 0f;
 
         public Vector2 MovementInput { get => movementInput; set => movementInput = value; }
@@ -22,7 +22,6 @@ namespace Shimmering
             playerController = GetComponent<PlayerController>();
             cameraObject = Camera.main.transform;
             playerController.InputActions.PlayerMovement.Movement.performed += inputActions => MovementInput = inputActions.ReadValue<Vector2>();
-            playerController.InputActions.PlayerMovement.Camera.performed += i => cameraInput = i.ReadValue<Vector2>();
         }
 
         private void Update()
@@ -30,6 +29,7 @@ namespace Shimmering
             moveDirection = cameraObject.forward * MovementInput.y;
             moveDirection += cameraObject.right * MovementInput.x;
             moveDirection.Normalize();
+            moveDirection.y = 0f;
 
             float speed = playerController.MovementSpeed;
             moveDirection *= speed;
@@ -39,10 +39,10 @@ namespace Shimmering
 
             moveAmount = Mathf.Clamp01(Mathf.Abs(MovementInput.x) + Mathf.Abs(MovementInput.y));
             playerController.PlayerAnimator.UpdateAnimatorValues(moveAmount, 0f);
-            HandleRotation(Time.deltaTime);
+            HandleRotation();
         }
 
-        private void HandleRotation(float deltaTime)
+        private void HandleRotation()
         {
             Vector3 targetDir = Vector3.zero;
 
@@ -58,7 +58,7 @@ namespace Shimmering
             float rs = playerController.RotationSpeed;
 
             Quaternion tr = Quaternion.LookRotation(targetDir);
-            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rs * deltaTime);
+            Quaternion targetRotation = Quaternion.Slerp(transform.rotation, tr, rs * Time.deltaTime);
 
             transform.rotation = targetRotation;
         }
